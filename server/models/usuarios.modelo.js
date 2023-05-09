@@ -50,7 +50,8 @@ let Usuario = sequelize.define('Usuario', {
 	},
 
 },
-	{ tableName: 'employees' },
+	{ tableName: 'employees',
+	timestamps: true },
 	{
 		/*=============================================
 	Evitar devolver en la DATA el campo Password
@@ -65,7 +66,12 @@ let Usuario = sequelize.define('Usuario', {
 /*=============================================
 // Sincronizamos el modelo con la base de datos
 =============================================*/
-sequelize.sync();
+Usuario.sync().then(()=>{
+	console.log("Modelo sincronizado con la base de datos");
+}).catch((error)=>{
+	console.log("Error en la sincronizacion "+ error);
+})
+
 
 
 
