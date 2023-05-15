@@ -85,12 +85,70 @@ let crearUsuario = async (req, res) => {
 };
 
 /*=============================================
-EXPORTAMOS LAS FUNCIONES DEL CONTROLADOR
+FUNCIÓN LOGIN
 =============================================*/
 
+let login = async (req, res)=>{
+
+	//Obtenemos el cuerpo del formulario del formulario
+
+	let body = req.body;
+
+	//Recorremos la base de datos en búsqueda de coincidencia con el usuario
+  try {
+    // Busca al usuario en la base de datos por el nombre de usuario
+    const user = await Usuario.findOne({ where: { username:body.username} });
+
+    console.log(user);
+    const pass = bcrypt.hash(user.password, 10);
+    console.log(pass);
+
+    // Si no se encuentra el usuario, retorna un error
+    if (!user) {
+      return res.status(401).json({ message: 'Usuario no encontrado' });
+        }
+        console.log(res);
+
+    // Verifica la contraseña
+    if( !bcrypt.compareSync(body.password, user.password)){
+
+			return res.json({
+
+				status: 400,
+				mensaje:"La contraseña es incorrecta"
+				
+			})	
+
+		}
+    //Generamos el token de autorizacíón
+
+		let token  = jwt.sign({
+
+			data:user
+
+		}, process.env.SECRET, { expiresIn: process.env.CADUCIDAD })
+
+		res.json({
+
+			status:200,
+			token,
+			data:user
+		})
+     console.log(token);
+
+  } catch (error) {
+    // En caso de algún error, retorna un error genérico
+    return res.status(500).json({ message: 'Error en el servidor' });
+  }
+	};
+
+/*=============================================
+EXPORTAMOS LAS FUNCIONES DEL CONTROLADOR
+=============================================*/
 
 module.exports = {
 
 	mostrarUsuarios,
-	crearUsuario 
+	crearUsuario, 
+  login
 }

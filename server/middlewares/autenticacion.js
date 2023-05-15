@@ -7,7 +7,7 @@ Verificar token
 let verificarToken = (req, res, next)=>{
 
 	let token = req.get('Authorization');
-
+	console.log(token);
 	jwt.verify(token, process.env.SECRET, (err, decoded)=>{
 
 		if(err){
