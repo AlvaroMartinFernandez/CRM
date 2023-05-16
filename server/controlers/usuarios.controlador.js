@@ -100,8 +100,6 @@ let login = async (req, res)=>{
     const user = await Usuario.findOne({ where: { username:body.username} });
 
     console.log(user);
-    const pass = bcrypt.hash(user.password, 10);
-    console.log(pass);
 
     // Si no se encuentra el usuario, retorna un error
     if (!user) {
