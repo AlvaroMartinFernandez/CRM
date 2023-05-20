@@ -54,7 +54,7 @@ let crearUsuario = async (req, res) => {
   try {
     let { username, name, email, password, birthday, departament, position } = req.body;
 
-   /* const emailExistente = await Usuario.findOne({ where: { email } });
+    const emailExistente = await Usuario.findOne({ where: { email } });
     const usuarioExistente = await Usuario.findOne({ where: { username } });
 
   if (emailExistente) {
@@ -62,19 +62,18 @@ let crearUsuario = async (req, res) => {
     }
    else if (usuarioExistente) {
       return res.status(400).json({ mensaje: 'El usuario ya está registrado' });
-    }*/
-
-    password="123456";
+   }
+  
     const passwordEncriptada = await bcrypt.hash(password, 10);
 
     const usuario = await Usuario.create({
-      username: 'ALVAROwkkk547',
-      name: 'MARTINm',
-      email: 'ALVARmw4@gmail.com',
+      username: username,
+      name: name,
+      email: email,
       password: passwordEncriptada,
-      birthday: '',
-      departament: 'it',
-      position: 'director'
+      birthday: birthday,
+      departament: departament,
+      position: position
     });
     res.status(200).json(usuario);
   } catch (error) {

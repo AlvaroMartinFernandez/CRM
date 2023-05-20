@@ -12,7 +12,7 @@ import Sidebar from './components/sidebar/Sidebar';
 //import Footer from './components/footer/Footer';
 
 //Componentes Dinamicos
-import Administradores from './components/administradores/Administradores';
+import Usuarios from './components/usuarios/Usuarios';
 
 export default function App() {
 
@@ -32,13 +32,7 @@ console.log(auth);
       <div className="wrapper">
         <Header />
         <Sidebar />
-        <BrowserRouter>
-            
-            <Routes>
-            <Route exact path="/" component={Administradores} />
-            </Routes>
-
-</BrowserRouter>
+<Usuarios />
 
 
       </div>
